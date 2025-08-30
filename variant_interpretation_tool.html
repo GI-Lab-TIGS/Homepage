@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variant Interpretation Tool - NMphenogen</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fcff;
+            color: #2a3b4c;
+            line-height: 1.7;
+            padding: 0;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #0a192f;
+            color: #ccd6f6;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 20px 60px;
+            border-bottom: 1px solid #e6effa;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.05);
+            transition: background-color 0.3s, border-bottom 0.3s, box-shadow 0.3s;
+        }
+
+        body.dark-mode nav {
+            background-color: #112240;
+            border-bottom: 1px solid #233554;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            font-size: 2em;
+            color: #007bff;
+            margin-right: 14px;
+            filter: drop-shadow(0 2px 4px rgba(0, 123, 255, 0.2));
+        }
+
+        body.dark-mode .logo-icon {
+            color: #64ffda;
+            filter: drop-shadow(0 2px 4px rgba(100, 255, 218, 0.3));
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.6em;
+            color: #007bff;
+        }
+
+        body.dark-mode .logo-text {
+            color: #64ffda;
+        }
+
+        .logo-subtitle {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-left: 10px;
+        }
+
+        body.dark-mode .logo-subtitle {
+            color: #8892b0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #495057;
+            text-decoration: none;
+            font-size: 1.05em;
+            font-weight: 500;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #007bff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        body.dark-mode .nav-links a {
+            color: #8892b0;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+            transform: translateY(-2px);
+        }
+
+        body.dark-mode .nav-links a:hover {
+            color: #64ffda;
+        }
+
+        body.dark-mode .nav-links a:hover::after {
+            background-color: #64ffda;
+        }
+
+        .tool-section {
+            max-width: 1300px;
+            margin: 80px auto 50px;
+            padding: 0 60px;
+        }
+
+        .tool-title {
+            font-size: 2.5em;
+            color: #2a3b4c;
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .tool-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: #007bff;
+            bottom: -10px;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        body.dark-mode .tool-title {
+            color: #ccd6f6;
+        }
+
+        body.dark-mode .tool-title::after {
+            background: #64ffda;
+        }
+
+        .tool-description {
+            font-size: 1.1em;
+            color: #495057;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        body.dark-mode .tool-description {
+            color: #a8b2d1;
+        }
+
+        .tool-features {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .tool-features li {
+            font-size: 1em;
+            color: #6c757d;
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+            text-align: justify;
+        }
+
+        body.dark-mode .tool-features li {
+            color: #8892b0;
+        }
+
+        .tool-features li::before {
+            content: "•";
+            color: #007bff;
+            position: absolute;
+            left: 0;
+            font-size: 1.3em;
+        }
+
+        body.dark-mode .tool-features li::before {
+            color: #64ffda;
+        }
+
+        .launch-button {
+            display: inline-flex;
+            align-items: center;
+            color: #ffffff;
+            background: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05em;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .launch-button::after {
+            content: " →";
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .launch-button:hover {
+            background: #0062cc;
+            transform: translateY(-2px);
+        }
+
+        .launch-button:hover::after {
+            transform: translateX(4px);
+        }
+
+        body.dark-mode .launch-button {
+            background: #64ffda;
+            color: #0a192f;
+        }
+
+        body.dark-mode .launch-button:hover {
+            background: #52e6c3;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05em;
+            margin-top: 40px;
+        }
+
+        .back-link::before {
+            content: "← ";
+            margin-right: 8px;
+        }
+
+        .back-link:hover {
+            color: #0062cc;
+        }
+
+        body.dark-mode .back-link {
+            color: #64ffda;
+        }
+
+        body.dark-mode .back-link:hover {
+            color: #52e6c3;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 30px;
+            }
+            .tool-section {
+                padding: 0 30px;
+                margin: 60px auto 40px;
+            }
+            .tool-title {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav role="navigation">
+        <div class="logo">
+            <span class="logo-icon"></span>
+            <span class="logo-text">NMphenogen</span>
+            <span class="logo-subtitle">Comprehensive analysis platform</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">GitHub</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+
+    <section class="tool-section" role="main">
+        <h1 class="tool-title">Variant Interpretation Tool</h1>
+        <p class="tool-description">Variant analysis is not straightforward and has several layered steps. The American College of Medical Genetics (ACMG) guidelines are the standard recommendations for the interpretation and reporting the sequence variations identified in order to provide an educational resource for medical geneticists and other health care to provide quality medical genetic services. It provides a framework for interpretation and reporting of the test results and to aid referring clinicians by educating them as to possible testing outcomes so that they can inform their patients and families appropriately. These recommendations involve the five classes namely pathogenic (P), likely pathogenic (LP), benign (B), likely benign (LB) and variant of uncertain significance (VUS). Each classification is based on the studies done and supporting evidence available, which describe each variant with respect to different characteristics and degrees of pathogenicity. Pathogenic criterion is scored as very strong (PVS1), strong (PS1-4), moderate (PM1-6), or supporting (PP1-5), and benign criterion as standalone (BA1), strong (BS1-4), or supporting (BP1-6). According to ACMG guidelines 2015, the classification requires evidence ranging from molecular and population data to clinical and familial correlations. One needs to consider the variants effect on the protein activity whether it is a nonsense, frameshift, splice site or missense leading to loss of function, if the variant is present in the conserved sites as substitutions at these sites are often pathogenic, if the variant allele frequency in the population is <1%, segregation analysis with the family also provides strong evidence with the disease if present in multiple affected family members. It is important to make sure that the variants are reported precisely, especially while reporting a pathogenic variant, as it can lead to alteration in the treatment or surveillance of the patient. As the research field grows and more evidence is generated, variant reclassification needs to be done. With the advancement of NGS technologies, thousands of variants are identified for an individual, of these only few might be pathogenic. However, VUS may have conflicting interpretation due to lack of information. In such scenarios, clinical geneticists or healthcare providers depend on silico tools that assess protein variant tolerance, splicing or gene regulatory alterations by assigning quantitative measures. We have built an intuitive ACMG calculator to assist in variant classification for researchers, genome analysts, geneticists and other users to familiarize themselves with ACMG guidelines and assess their set of variants.</p>
+        <ul class="tool-features">
+            <li>ACMG guideline classification</li>
+            <li>Population frequency analysis</li>
+            <li>Pathogenicity prediction scores</li>
+            <li>Clinical significance assessment</li>
+        </ul>
+        <a href="https://gi-lab-tigs.github.io/ACMG_Variant_Interpretation_Tool/" class="launch-button">Launch Tool</a>
+        <br>
+        <a href="index.html" class="back-link">Back to Home</a>
+    </section>
+</body>
+</html>

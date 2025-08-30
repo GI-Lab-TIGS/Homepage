@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NMphenogen: Comprehensive analysis platform for neuromuscular disorders with advanced genomic tools.">
+    <title>NMphenogen</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fcff;
+            color: #2a3b4c;
+            line-height: 1.7;
+            padding: 0;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #0a192f;
+            color: #ccd6f6;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 20px 60px;
+            border-bottom: 1px solid #e6effa;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.05);
+            transition: background-color 0.3s, border-bottom 0.3s, box-shadow 0.3s;
+        }
+
+        body.dark-mode nav {
+            background-color: #112240;
+            border-bottom: 1px solid #233554;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            font-size: 2em;
+            color: #007bff;
+            margin-right: 14px;
+            filter: drop-shadow(0 2px 4px rgba(0, 123, 255, 0.2));
+        }
+
+        body.dark-mode .logo-icon {
+            color: #64ffda;
+            filter: drop-shadow(0 2px 4px rgba(100, 255, 218, 0.3));
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.6em;
+            color: #007bff;
+        }
+
+        body.dark-mode .logo-text {
+            color: #64ffda;
+        }
+
+        .logo-subtitle {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-left: 10px;
+        }
+
+        body.dark-mode .logo-subtitle {
+            color: #8892b0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #495057;
+            text-decoration: none;
+            font-size: 1.05em;
+            font-weight: 500;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #007bff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        body.dark-mode .nav-links a {
+            color: #8892b0;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+            transform: translateY(-2px);
+        }
+
+        body.dark-mode .nav-links a:hover {
+            color: #64ffda;
+        }
+
+        body.dark-mode .nav-links a:hover::after {
+            background-color: #64ffda;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.4em;
+            cursor: pointer;
+            margin-left: 25px;
+            transition: transform 0.3s, color 0.3s;
+            color: #007bff;
+        }
+
+        body.dark-mode .theme-toggle {
+            color: #64ffda;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(180deg);
+        }
+
+        header {
+            text-align: left;
+            max-width: 1300px;
+            margin: 80px auto 50px;
+            padding: 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0,123,255,0.1) 0%, rgba(0,123,255,0) 70%);
+            z-index: -1;
+        }
+
+        body.dark-mode header::before {
+            background: radial-gradient(circle, rgba(100,255,218,0.1) 0%, rgba(100,255,218,0) 70%);
+        }
+
+        .main-title {
+            font-size: 3.5em;
+            color: #007bff;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 4px rgba(0,123,255,0.1);
+        }
+
+        body.dark-mode .main-title {
+            color: #64ffda;
+            text-shadow: 0 2px 4px rgba(100,255,218,0.2);
+        }
+
+        .main-description {
+            font-size: 1.3em;
+            color: #495057;
+            max-width: 850px;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        body.dark-mode .main-description {
+            color: #a8b2d1;
+        }
+
+        .features {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 70px;
+        }
+
+        .feature {
+            color: #007bff;
+            font-size: 1.05em;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            background: rgba(0,123,255,0.05);
+            border-radius: 20px;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .feature:hover {
+            background: rgba(0,123,255,0.1);
+            transform: translateY(-3px);
+        }
+
+        body.dark-mode .feature {
+            color: #64ffda;
+            background: rgba(100,255,218,0.05);
+        }
+
+        body.dark-mode .feature:hover {
+            background: rgba(100,255,218,0.1);
+        }
+
+        .feature::before {
+            content: "•";
+            color: #007bff;
+            margin-right: 10px;
+            font-size: 1.3em;
+        }
+
+        body.dark-mode .feature::before {
+            color: #64ffda;
+        }
+
+        .about-section, .objectives-section, .bibliography-section {
+            max-width: 1300px;
+            margin: 0 auto 80px;
+            padding: 0 60px;
+        }
+
+        .section-title {
+            font-size: 2.5em;
+            color: #2a3b4c;
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: #007bff;
+            bottom: -10px;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        body.dark-mode .section-title {
+            color: #ccd6f6;
+        }
+
+        body.dark-mode .section-title::after {
+            background: #64ffda;
+        }
+
+        .section-subtitle {
+            font-size: 1.15em;
+            color: #6c757d;
+            margin-bottom: 60px;
+            text-align: justify;
+        }
+
+        body.dark-mode .section-subtitle {
+            color: #8892b0;
+        }
+
+        .about-content p {
+            margin-bottom: 25px;
+            font-size: 1.1em;
+            color: #495057;
+            text-align: justify;
+        }
+
+        body.dark-mode .about-content p {
+            color: #a8b2d1;
+        }
+
+        .objectives-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .objectives-list li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 25px;
+            font-size: 1.1em;
+            color: #495057;
+            line-height: 1.6;
+            transition: transform 0.3s, color 0.3s;
+            text-align: justify;
+        }
+
+        .objectives-list li:hover {
+            transform: translateX(5px);
+            color: #007bff;
+        }
+
+        body.dark-mode .objectives-list li {
+            color: #a8b2d1;
+        }
+
+        body.dark-mode .objectives-list li:hover {
+            color: #64ffda;
+        }
+
+        .objectives-list li::before {
+            content: "✔";
+            position: absolute;
+            left: 0;
+            color: #007bff;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        body.dark-mode .objectives-list li::before {
+            color: #64ffda;
+        }
+
+        #bib-search {
+            width: 100%;
+            padding: 12px 20px;
+            margin-bottom: 25px;
+            font-size: 1.05em;
+            border: 1px solid #e6effa;
+            border-radius: 8px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #fff;
+        }
+
+        #bib-search:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+            outline: none;
+        }
+
+        body.dark-mode #bib-search {
+            background-color: #112240;
+            color: #ccd6f6;
+            border-color: #233554;
+        }
+
+        body.dark-mode #bib-search:focus {
+            border-color: #64ffda;
+            box-shadow: 0 0 0 3px rgba(100,255,218,0.1);
+        }
+
+        .bibliography-list {
+            list-style-type: none;
+            counter-reset: bib-counter;
+            max-height: 300px; /* Optional: Limit height with scrollbar */
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+
+        .bibliography-list li {
+            counter-increment: bib-counter;
+            margin-bottom: 20px;
+            font-size: 1.05em;
+            color: #495057;
+            position: relative;
+            padding-left: 45px;
+            transition: color 0.3s;
+            text-align: justify;
+        }
+
+        .bibliography-list li:hover {
+            color: #007bff;
+        }
+
+        body.dark-mode .bibliography-list li {
+            color: #a8b2d1;
+        }
+
+        body.dark-mode .bibliography-list li:hover {
+            color: #64ffda;
+        }
+
+        .bibliography-list li::before {
+            content: counter(bib-counter) ". ";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        body.dark-mode .bibliography-list li::before {
+            color: #64ffda;
+        }
+
+        .tools-section {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 60px 100px;
+            background: linear-gradient(to bottom, #f8fcff, #ffffff);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,102,204,0.05);
+        }
+
+        body.dark-mode .tools-section {
+            background: linear-gradient(to bottom, #0a192f, #112240);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .tool-card {
+            background-color: #ffffff;
+            border: 1px solid #e6effa;
+            border-radius: 16px;
+            padding: 40px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #007bff;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .tool-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        body.dark-mode .tool-card {
+            background-color: #112240;
+            border-color: #233554;
+        }
+
+        body.dark-mode .tool-card::before {
+            background: #64ffda;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0,123,255,0.15);
+            border-color: #007bff;
+        }
+
+        body.dark-mode .tool-card:hover {
+            box-shadow: 0 12px 24px rgba(100,255,218,0.15);
+            border-color: #64ffda;
+        }
+
+        .tool-icon {
+            font-size: 3em;
+            color: #007bff;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        body.dark-mode .tool-icon {
+            color: #64ffda;
+        }
+
+        .tool-title {
+            font-size: 1.8em;
+            color: #007bff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        body.dark-mode .tool-title {
+            color: #64ffda;
+        }
+
+        .tool-description {
+            font-size: 1.1em;
+            color: #495057;
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+
+        body.dark-mode .tool-description {
+            color: #a8b2d1;
+        }
+
+        .tool-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .tool-features li {
+            font-size: 1em;
+            color: #6c757d;
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+            text-align: justify;
+        }
+
+        body.dark-mode .tool-features li {
+            color: #8892b0;
+        }
+
+        .tool-features li::before {
+            content: "•";
+            color: #007bff;
+            position: absolute;
+            left: 0;
+            font-size: 1.3em;
+        }
+
+        body.dark-mode .tool-features li::before {
+            color: #64ffda;
+        }
+
+        .access-link {
+            display: inline-flex;
+            align-items: center;
+            color: #ffffff;
+            background: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05em;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .access-link::after {
+            content: " →";
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .access-link:hover {
+            background: #0062cc;
+            transform: translateY(-2px);
+        }
+
+        .access-link:hover::after {
+            transform: translateX(4px);
+        }
+
+        body.dark-mode .access-link {
+            background: #64ffda;
+            color: #0a192f;
+        }
+
+        body.dark-mode .access-link:hover {
+            background: #52e6c3;
+        }
+
+        /* Add subtle animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tool-card, .about-content p, .objectives-list li, .bibliography-list li {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .tool-card:nth-child(1), .about-content p:nth-child(1), .objectives-list li:nth-child(1) { animation-delay: 0.2s; }
+        .tool-card:nth-child(2), .about-content p:nth-child(2), .objectives-list li:nth-child(2) { animation-delay: 0.4s; }
+        .tool-card:nth-child(3), .about-content p:nth-child(3), .objectives-list li:nth-child(3) { animation-delay: 0.6s; }
+        .tool-card:nth-child(4), .about-content p:nth-child(4), .objectives-list li:nth-child(4) { animation-delay: 0.8s; }
+
+        /* Skip link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 30px;
+            }
+            header {
+                padding: 0 30px;
+                margin: 60px auto 40px;
+            }
+            .main-title {
+                font-size: 2.8em;
+            }
+            .features {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .about-section, .objectives-section, .bibliography-section, .tools-section {
+                padding: 0 30px 80px;
+            }
+            .tool-grid {
+                gap: 30px;
+            }
+            .tool-card {
+                padding: 30px;
+            }
+            .objectives-list li {
+                padding-left: 30px;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Dropdown styling for bibliography */
+        details.bibliography-section {
+            margin-bottom: 80px;
+        }
+
+        details.bibliography-section summary {
+            font-size: 2.5em;
+            color: #2a3b4c;
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            padding: 10px 0;
+        }
+
+        body.dark-mode details.bibliography-section summary {
+            color: #ccd6f6;
+        }
+
+        details.bibliography-section summary::after {
+            content: ' ▼';
+            transition: transform 0.3s ease;
+        }
+
+        details.bibliography-section[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        details.bibliography-section[open] summary {
+            margin-bottom: 20px;
+        }
+
+        .bibliography-content {
+            padding: 20px 0;
+            border-top: 1px solid #e6effa;
+        }
+
+        body.dark-mode .bibliography-content {
+            border-top: 1px solid #233554;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <nav role="navigation">
+        <div class="logo">
+            <span class="logo-icon"></span>
+            <span class="logo-text">NMphenogen</span>
+            <span class="logo-subtitle">Comprehensive analysis platform</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">GitHub</a>
+            <a href="#">Contact</a>
+        </div>
+        <button class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+    </nav>
+
+    <header role="banner">
+        <h1 class="main-title" id="main-title">Advanced Genomic Analysis Tools</h1>
+        <p class="main-description">NMphenogen provides a comprehensive suite of specialized tools for genetic variant analysis and phenotype scoring. Access cutting-edge bioinformatics workflows designed for researchers and clinicians.</p>
+        <div class="features">
+            <span class="feature">Specialized Tools</span>
+            <span class="feature">Clinical Grade Analysis</span>
+            <span class="feature">Research</span>
+        </div>
+        <section class="objectives-section" aria-labelledby="objectives-title">
+            <h2 class="section-title" id="objectives-title">Objectives of NMVar Database</h2>
+            <ul class="objectives-list">
+                <li>Phenotype–genotype correlation to assist clinicians in selecting gene panels and help laboratory/clinical scientists prioritize genes for analysis.</li>
+                
+                <li>Variant classification tool following ACMG guidelines with a user-friendly and intuitive questionnaire for variant classification.</li>
+                <li> Database for NMGD </li>
+            </ul>
+        </section>
+        <section class="tools-section" aria-labelledby="tools-title">
+            <h2 class="section-title" id="tools-title">Choose Your Analysis Tool</h2>
+            <p class="section-subtitle">Each tool is specifically designed for different aspects of genomic analysis. Select the appropriate tool for your research needs.</p>
+            <div class="tool-grid">
+                <div class="tool-card">
+                    <span class="tool-icon"></span>
+                    <h3 class="tool-title">NMPhenoscore</h3>
+                    <ul class="tool-features">
+                        <li>Advanced phenotype scoring algorithms</li>
+                        <li>Statistical analysis and visualization</li>
+                        <li>Batch processing capabilities</li>
+                        <li>Export and reporting functions</li>
+                    </ul>
+                    <a href="nm_phenoscore.html" class="access-link">Access Tool</a>
+                </div>
+                <div class="tool-card">
+                    <span class="tool-icon"></span>
+                    <h3 class="tool-title">Variant Interpretation Tool</h3>
+                    <ul class="tool-features">
+                        <li>ACMG guideline classification</li>
+                        <li>Population frequency analysis</li>
+                        <li>Pathogenicity prediction scores</li>
+                        <li>Clinical significance assessment</li>
+                    </ul>
+                    <a href="variant_interpretation_tool.html" class="access-link">Access Tool</a>
+                </div>
+                <div class="tool-card">
+                    <span class="tool-icon"></span>
+                    <h3 class="tool-title">NMPhenogen Database</h3>
+                    <ul class="tool-features">
+                        <li>Comprehensive gene database</li>
+                        <li>Variant annotations</li>
+                        <li>Phenotype correlations</li>
+                        <li>Search and query functions</li>
+                    </ul>
+                    <a href="nmphenogen_data.html" class="access-link">Access Database</a>
+                </div>
+            </div>
+        </section>
+    </header>
+
+    <main id="main-content" role="main">
+        <section class="about-section" aria-labelledby="about-title">
+            <h2 class="section-title" id="about-title">About Neuromuscular Disorders (NMDs)</h2>
+            <div class="about-content">
+                <p>Neuromuscular disorders (NMDs) are a heterogeneous group of genetic disorders that affect around 1 in 1000 individuals worldwide. Although collectively common, each individual condition is rare, with an overall prevalence estimated to be 37 per 10000 in the general population. NMDs result from genetic variations including insertions, deletions, duplications, or repeat expansions that disrupt the function of peripheral nerves, motor neurons, neuromuscular junctions, or skeletal muscles, leading to progressive muscle weakness and degeneration. There are around 715 different genes resulting in 1240 NMDs.  NMDs are mostly monogenic, inherited as autosomal dominant (Myotonic dystrophy), autosomal recessive (LGMD 2), X-linked (DMD), mitochondrial (MERRF, MELAS) or can be sporadic (Nemaline Myopathy)</p>
+                <p>The onset, severity and clinical presentation of NMDs vary widely. Disorders, such as congenital myopathies and congenital muscular dystrophies (CMDs), manifest at birth or in early infancy with hypotonia, delayed milestones, or respiratory insufficiency, while others, such as limb girdle muscular dystrophy (LGMD) or facioscapulohumeral muscular dystrophy (FSHD), present during adolescence or adulthood. Duchenne Muscular Dystrophy (DMD) the most prevalent and severe form affects approximately 1 in 3500 male children and typically presents before the age of five with progressive proximal muscle weakness, calf hypertrophy, and elevated Creatinine phosphokinase (CPK) levels. CMDs, though less common (0.6-0.9 per 100000), present with Central nervous system (CNS), ocular and cardiac involvement. Mitochondrial myopathies, by contrast, are linked to defects in oxidative phosphorylation, presenting with exercise intolerance, myalgias, or metabolic decompensation during illness or fasting. Similarly, Hereditary Spastic Paraplegias (HSPs) occur in about 1-9 per 100000 individuals and are characterized by progressive spastic paraplegias due to distal axonal degeneration. Systemic involvement also aids recognition and early intervention, for example cardiac manifestations in DMD and myotonic dystrophy, hepatomegaly in metabolic storage disorders, early respiratory failure in nemaline myopathy, and contractures in Emery-Dreifuss muscular dystrophy.</p>
+            </div>
+        </section>
+
+        <details class="bibliography-section" aria-labelledby="bibliography-title">
+            <summary class="section-title" id="bibliography-title">Bibliography</summary>
+            <div class="bibliography-content">
+                <input type="text" id="bib-search" placeholder="Search bibliography...">
+                <ol class="bibliography-list" id="bibliography-list">
+                    <!-- Items will be dynamically added via JavaScript -->
+                </ol>
+            </div>
+        </details>
+    </main>
+
+    <script>
+        // Dark mode toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+
+        // Dynamic bibliography template
+        const references = [
+            "Amezquita RA, Lun ATL, Becht E, et al. Orchestrating single-cell analysis with Bioconductor. Nat Methods. 2020;17(2):137-145. doi: 10.1038/s41592-019-0654-x.",
+            "Baig, M.H., Rashid, I., Srivastava, P. et al. NeuroMuscleDB: a Database of Genes Associated with Muscle Development, Neuromuscular Diseases, Ageing, and Neurodegeneration. Mol Neurobiol 56, 5835–5843 (2019). https://doi.org/10.1007/s12035-019-1478-5",
+            "Berntsson, S. G., Matsson, H., Kristoffersson, A., Niemelä, V., van Duyvenvoorde, H. A., Richel-van Assenbergh, C., ... & Landtblom, A. M. (2023). Case report: a novel deep intronic splice-altering variant in DMD as a cause of Becker muscular dystrophy. Frontiers in Genetics, 14, 1226766.",
+            "Bianconi E, Piovesan A, Facchin F, et al. An estimation of the number of cells in the human body. Ann Hum Biol. 2013;40:463- 471.",
+            "Bonne G, Rivier F, Hamroun D. The 2018 version of the gene table of monogenic neuromuscular disorders (nuclear genome) Neuromuscul Disord. 2017;27:1152–83. doi: 10.1016/j.nmd.2017.10.005 - www.musclegenetable.fr",
+            "Butler A, Hoffman P, Smibert P, Papalexi E, Satija R. Integrating single-cell transcriptomic data across different conditions, technologies, and species. Nat Biotechnol. 2018;36(5):411-420. doi: 10.1038/nbt.4096.",
+            "Chen, Q., Zhou, X. J., & Sun, F. (2015). Finding genetic overlaps among diseases based on ranked gene lists. Journal of Computational Biology, 22(2), 111-123.",
+            "Dubrovsky, A.L., 2018. Diagnosing Neuromuscular Diseases. NEUROLOGY.",
+            "Ellingford, J. M., Ahn, J. W., Bagnall, R. D., Baralle, D., Barton, S., Campbell, C., ... & Whiffin, N. (2022). Recommendations for clinical interpretation of variants found in non-coding regions of the genome. Genome medicine, 14(1), 73.",
+            "French, J. D., & Edwards, S. L. (2020). The role of noncoding variants in heritable disease. Trends in Genetics, 36(11), 880-891.",
+            "Gloss, B. S., & Dinger, M. E. (2018). Realizing the significance of noncoding functionality in clinical genomics. Experimental & molecular medicine, 50(8), 1-8.",
+            "Hwang, B., Lee, J.H. & Bang, D. Single-cell RNA sequencing technologies and bioinformatics pipelines. Exp Mol Med 50, 1–14 (2018). https://doi.org/10.1038/s12276-018-0071-8",
+            "Islam S, Zeisel A, Joost S, et al. Quantitative single-cell RNA-seq with unique molecular identifiers. Nat Methods. 2014;11(2):163-166. doi: 10.1038/nmeth.2772.",
+            "Jovic D, Liang X, Zeng H, Lin L, Xu F, Luo Y. Single-cell RNA sequencing technologies and applications: A brief overview. Clin Transl Med. 2022;12:e694. https://doi.org/10.1002/ctm2.694",
+            "Laing, N. G. (2012). Genetics of neuromuscular disorders. Critical Reviews in Clinical Laboratory Sciences, 49(2), 33–48. https://doi.org/10.3109/10408363.2012.658906",
+            "Luecken MD, Theis FJ. Current best practices in single-cell RNA-seq analysis: a tutorial. Mol Syst Biol. 2019;15(6):e8746. doi: 10.15252/msb.20188746.",
+            "Macias, A., Fichna, J. P., Topolewska, M., Rȩdowicz, M. J., Kaminska, A. M., & Kostera-Pruszczyk, A. (2021). Targeted next-generation sequencing reveals mutations in non-coding regions and potential regulatory sequences of Calpain-3 gene in polish limb–girdle muscular dystrophy patients. Frontiers in Neuroscience, 15, 692482.",
+            "Mahesan, Aakash, Gautam Kamila, and Sheffali Gulati. \"Rare paediatric disorders in Indian healthcare settings with focus on neuromuscular disorders: Diagnostic and management challenges.\" Journal of Biosciences 49, no. 1 (2024): 15",
+            "Marwaha, Shruti, Joshua W. Knowles, and Euan A. Ashley. \"A guide for the diagnosis of rare and undiagnosed disease: beyond the exome.\" Genome medicine 14.1 (2022): 23.",
+            "McCarthy DJ, Campbell KR, Lun ATL, Wills QF. Scater: pre-processing, quality control, normalization, and visualization of single-cell RNA-seq data in R. Bioinformatics. 2017;33(8):1179-1186. doi: 10.1093/bioinformatics/btw777.",
+            "P. Mary, L. Servais, R. Vialle, Neuromuscular diseases: Diagnosis and management, Orthopaedics & Traumatology: Surgery & Research, Volume 104, Issue 1, Supplement, 2018, Pages S89-S95, ISSN 1877-0568, https://doi.org/10.1016/j.otsr.2017.04.019",
+            "Richards S, Aziz N, Bale S, Bick D, Das S, Gastier-Foster J, Grody WW, Hegde M, Lyon E, Spector E, Voelkerding K, Rehm HL; ACMG Laboratory Quality Assurance Committee. Standards and guidelines for the interpretation of sequence variants: a joint consensus recommendation of the American College of Medical Genetics and Genomics and the Association for Molecular Pathology. Genet Med. 2015 May;17(5):405-24. doi: 10.1038/gim.2015.30. Epub 2015 Mar 5. PMID: 25741868; PMCID: PMC4544753",
+            "Rosenberg, A., Tian, C., He, H., Ulm, E., Collins Ruff, K., & B. Nagaraj, C. (2023). An evaluation of clinical presentation and genetic testing approaches for patients with neuromuscular disorders. American Journal of Medical Genetics Part A, 191A:2679–2692. https://doi.org/10. 1002/ajmg.a.63356",
+            "Satija R, Farrell JA, Gennert D, Schier AF, Regev A. Spatial reconstruction of single-cell gene expression data. Nat Biotechnol. 2015;33(5):495-502. doi: 10.1038/nbt.3192.",
+            "Sindhav, G., Trivedi, P., Patel, K., Prajapati, D., Shah, A., & Gupta, S. (2025). Centre-based landscape of muscular dystrophies in Gujarat: insight into genetic diagnosis and management. Journal of Rare Diseases, 4(1), 26.",
+            "Zatz M, Passos-Bueno MR, Vainzof M. Neuromuscular disorders: genes, genetic counseling and therapeutic trials. Genetics and Molecular Biology. 2016;39(3):339-48"
+        ];
+
+        // Function to populate the bibliography list
+        function populateBibliography() {
+            const list = document.getElementById('bibliography-list');
+            references.forEach(ref => {
+                const li = document.createElement('li');
+                li.textContent = ref;
+                li.style.display = 'list-item'; // For filtering
+                list.appendChild(li);
+            });
+        }
+
+        // Bibliography search filter
+        function setupBibliographyFilter() {
+            const searchInput = document.getElementById('bib-search');
+            const listItems = document.querySelectorAll('#bibliography-list li');
+
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                listItems.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    item.style.display = text.includes(searchTerm) ? 'list-item' : 'none';
+                });
+            });
+        }
+
+        // Call functions on page load
+        window.addEventListener('load', () => {
+            populateBibliography();
+            setupBibliographyFilter();
+        });
+    </script>
+</body>
+</html>

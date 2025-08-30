@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NM Phenoscore - NMphenogen</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fcff;
+            color: #2a3b4c;
+            line-height: 1.7;
+            padding: 0;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #0a192f;
+            color: #ccd6f6;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 20px 60px;
+            border-bottom: 1px solid #e6effa;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.05);
+            transition: background-color 0.3s, border-bottom 0.3s, box-shadow 0.3s;
+        }
+
+        body.dark-mode nav {
+            background-color: #112240;
+            border-bottom: 1px solid #233554;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            font-size: 2em;
+            color: #007bff;
+            margin-right: 14px;
+            filter: drop-shadow(0 2px 4px rgba(0, 123, 255, 0.2));
+        }
+
+        body.dark-mode .logo-icon {
+            color: #64ffda;
+            filter: drop-shadow(0 2px 4px rgba(100, 255, 218, 0.3));
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.6em;
+            color: #007bff;
+        }
+
+        body.dark-mode .logo-text {
+            color: #64ffda;
+        }
+
+        .logo-subtitle {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-left: 10px;
+        }
+
+        body.dark-mode .logo-subtitle {
+            color: #8892b0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #495057;
+            text-decoration: none;
+            font-size: 1.05em;
+            font-weight: 500;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #007bff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        body.dark-mode .nav-links a {
+            color: #8892b0;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+            transform: translateY(-2px);
+        }
+
+        body.dark-mode .nav-links a:hover {
+            color: #64ffda;
+        }
+
+        body.dark-mode .nav-links a:hover::after {
+            background-color: #64ffda;
+        }
+
+        .tool-section {
+            max-width: 1300px;
+            margin: 80px auto 50px;
+            padding: 0 60px;
+        }
+
+        .tool-title {
+            font-size: 2.5em;
+            color: #2a3b4c;
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .tool-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: #007bff;
+            bottom: -10px;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        body.dark-mode .tool-title {
+            color: #ccd6f6;
+        }
+
+        body.dark-mode .tool-title::after {
+            background: #64ffda;
+        }
+
+        .tool-description {
+            font-size: 1.1em;
+            color: #495057;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        body.dark-mode .tool-description {
+            color: #a8b2d1;
+        }
+
+        .tool-features {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .tool-features li {
+            font-size: 1em;
+            color: #6c757d;
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+            text-align: justify;
+        }
+
+        body.dark-mode .tool-features li {
+            color: #8892b0;
+        }
+
+        .tool-features li::before {
+            content: "•";
+            color: #007bff;
+            position: absolute;
+            left: 0;
+            font-size: 1.3em;
+        }
+
+        body.dark-mode .tool-features li::before {
+            color: #64ffda;
+        }
+
+        .launch-button {
+            display: inline-flex;
+            align-items: center;
+            color: #ffffff;
+            background: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05em;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .launch-button::after {
+            content: " →";
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .launch-button:hover {
+            background: #0062cc;
+            transform: translateY(-2px);
+        }
+
+        .launch-button:hover::after {
+            transform: translateX(4px);
+        }
+
+        body.dark-mode .launch-button {
+            background: #64ffda;
+            color: #0a192f;
+        }
+
+        body.dark-mode .launch-button:hover {
+            background: #52e6c3;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05em;
+            margin-top: 40px;
+        }
+
+        .back-link::before {
+            content: "← ";
+            margin-right: 8px;
+        }
+
+        .back-link:hover {
+            color: #0062cc;
+        }
+
+        body.dark-mode .back-link {
+            color: #64ffda;
+        }
+
+        body.dark-mode .back-link:hover {
+            color: #52e6c3;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 30px;
+            }
+            .tool-section {
+                padding: 0 30px;
+                margin: 60px auto 40px;
+            }
+            .tool-title {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav role="navigation">
+        <div class="logo">
+            <span class="logo-icon"></span>
+            <span class="logo-text">NMphenogen</span>
+            <span class="logo-subtitle">Comprehensive analysis platform</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">GitHub</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+
+    <section class="tool-section" role="main">
+        <h1 class="tool-title">NM Phenoscore</h1>
+        <p class="tool-description">We have built NMPhenoscore to aggregate symptoms of neuromuscular genetic disorders to help clinicians, researchers, genome analysts, genetic counsellors and other users to prioritize genes and syndromes for the symptoms and assist in genotype-phenotype correlation. To understand the aetiology of the disorder, nature of progression, employ targeted therapy if any and aid in prevention in subsequent pregnancies by prenatal diagnosis and extended family screening.</p>
+        <ul class="tool-features">
+            <li>Advanced phenotype scoring algorithms</li>
+            <li>Statistical analysis and visualization</li>
+            <li>Batch processing capabilities</li>
+            <li>Export and reporting functions</li>
+        </ul>
+        <a href="http://127.0.0.1:5000" class="launch-button">Launch Tool</a>
+        <br>
+        <a href="index.html" class="back-link">Back to Home</a>
+    </section>
+</body>
+</html>
