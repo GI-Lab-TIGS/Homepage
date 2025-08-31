@@ -1,116 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NMPhenogen Database</title>
-<style>
-  body { font-family: Arial, sans-serif; padding: 20px; }
-  table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-  th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-  th { background-color: #007bff; color: white; }
-  tr:nth-child(even) { background-color: #f2f2f2; }
-  a { color: #1a73e8; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  .launch-button {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 12px 20px;
-      background-color: lightblue;
-      border: 1px solid #007bff;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      color: #000;
-  }
-  .launch-button:hover {
-      background-color: #add8e6;
-      border-color: #0056b3;
-  }
-</style>
-</head>
-<body>
-<h1>NMPhenogen Database</h1>
-
-<input type="text" id="search-input" placeholder="Search..." style="padding:10px; width:100%; max-width:400px;">
-
-<table id="data-table">
-  <thead>
-    <tr id="table-headers">
-      <!-- Headers will be dynamically inserted here -->
-    </tr>
-  </thead>
-  <tbody>
-    <!-- Rows will be dynamically inserted here -->
-  </tbody>
-</table>
-
-<script>
-async function loadJSON() {
-    const response = await fetch('nmphenogen_data.json');
-    const data = await response.json();
-    const tbody = document.querySelector('#data-table tbody');
-    const thead = document.getElementById('table-headers');
-
-    // Clear previous content
-    tbody.innerHTML = '';
-    thead.innerHTML = '';
-
-    if (data.length === 0) return;
-
-    // Dynamically create headers
-    const keys = Object.keys(data[0]);
-    keys.forEach(key => {
-        const th = document.createElement('th');
-        th.textContent = key;
-        thead.appendChild(th);
-    });
-
-    // Helper: extract ID from URL
-    function extractID(url) {
-        const match = url.match(/(\d+)/g);
-        return match ? match[match.length - 1] : url;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NMPhenogen Database</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f9fafb;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
 
-    // Populate rows
-    data.forEach(item => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = keys.map(key => {
-            const value = item[key];
-            if (!value) return `<td></td>`;
+    .tool-section {
+      background: #fff;
+      padding: 40px;
+      max-width: 700px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
 
-            if (key.toLowerCase().includes('omim') || key.toLowerCase().includes('mim')) {
-                const id = extractID(value);
-                return `<td><a href="https://www.omim.org/entry/${id}" target="_blank">${id}</a></td>`;
-            } 
-            else if (key.toLowerCase().includes('orphanet')) {
-                const id = extractID(value);
-                return `<td><a href="https://www.orpha.net/en/disease/detail/${id}" target="_blank">${id}</a></td>`;
-            } 
-            else if (key.toLowerCase().includes('malacards')) {
-                return `<td><a href="${value}" target="_blank">Link</a></td>`;
-            } 
-            else {
-                return `<td>${value}</td>`;
-            }
-        }).join('');
-        tbody.appendChild(tr);
-    });
+    .tool-title {
+      font-size: 2rem;
+      color: #1a202c;
+      margin-bottom: 20px;
+    }
 
-    // Search filter
-    const searchInput = document.getElementById('search-input');
-    searchInput.addEventListener('input', () => {
-        const term = searchInput.value.toLowerCase();
-        tbody.querySelectorAll('tr').forEach(row => {
-            row.style.display = Array.from(row.cells).some(cell => cell.textContent.toLowerCase().includes(term)) ? '' : 'none';
-        });
-    });
-}
+    .tool-description {
+      font-size: 1rem;
+      color: #4a5568;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
 
-window.addEventListener('DOMContentLoaded', loadJSON);
-</script>
+    .launch-button {
+      display: inline-block;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      background: #2563eb;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
 
-<section class="tool-section">
+    .launch-button:hover {
+      background: #1e40af;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 15px;
+      font-size: 0.95rem;
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <section class="tool-section">
     <h1 class="tool-title">NMPhenogen Database</h1>
     <p class="tool-description">
       The NMPhenogen Database provides a searchable resource of curated phenogenomic information. 
@@ -122,6 +80,6 @@ window.addEventListener('DOMContentLoaded', loadJSON);
     <a href="https://gi-lab-tigs.github.io/NMPhenogen_database/" class="launch-button">Launch Database</a>
     <br>
     <a href="index.html" class="back-link">Back to Home</a>
-</section>
+  </section>
 </body>
 </html>
