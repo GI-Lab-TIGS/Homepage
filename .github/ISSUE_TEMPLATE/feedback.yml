@@ -1,0 +1,20 @@
+name: Feedback
+description: Share your feedback with us
+title: "[Feedback]: "
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for giving feedback! Please fill in the details below.
+  - type: input
+    id: name
+    attributes:
+      label: Your Name
+      placeholder: ex. John
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Feedback
+      description: Tell us what’s on your mind
+      placeholder: Enter your feedback here...
