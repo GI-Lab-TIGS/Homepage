@@ -874,33 +874,40 @@
                 status.textContent = "Network error. Please try again later.";
             }
         });
-        // Feedback form functionality
-       document.getElementById('feedback-form').addEventListener('submit', function(e) {
-           e.preventDefault();
-           const name = document.getElementById('name').value;
-           const feedback = document.getElementById('feedback').value;
-           const statusElement = document.getElementById('form-status');
-           if (!name || !feedback) {
-               statusElement.textContent = "Please fill in all fields.";
-               statusElement.style.color = "#e74c3c";
-               return;
-           }
-           const title = `Feedback from ${name}`;
-           const body = `${feedback}\n\nSubmitted by: ${name}`;
-           const encodedTitle = encodeURIComponent(title);
-           const encodedBody = encodeURIComponent(body);
-           const repoUrl = "https://github.com/GI-Lab-TIGS/Homepage/issues/new?template=feedback.yml";
-           const issueUrl = `${repoUrl}?title=${encodedTitle}&body=${encodedBody}`;
-           window.open(issueUrl, '_blank');
-           statusElement.textContent = "Thank you! Redirecting to GitHub to submit your feedback.";
-           statusElement.style.color = "#0078D7";
-           document.getElementById('feedback-form').reset();
-       });
+       
+    // Feedback form functionality
+    document.getElementById('feedback-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('name').value;
+        const feedback = document.getElementById('feedback').value;
+        const statusElement = document.getElementById('form-status');
 
-    </script>
+        if (!name || !feedback) {
+            statusElement.textContent = "Please fill in all fields.";
+            statusElement.style.color = "#e74c3c";
+            return;
+        }
 
+        const title = `Feedback from ${name}`;
+        const body = `${feedback}\n\nSubmitted by: ${name}`;
+        const encodedTitle = encodeURIComponent(title);
+        const encodedBody = encodeURIComponent(body);
 
-    <footer style="margin-top:30px; text-align:center;">
+        // Correct link: new issue with feedback.yml template
+        const repoUrl = "https://github.com/GI-Lab-TIGS/Homepage/issues/new?template=feedback.yml";
+        const issueUrl = `${repoUrl}&title=${encodedTitle}&body=${encodedBody}`;
+
+        // Open GitHub issue form
+        window.open(issueUrl, '_blank');
+
+        // Show message to user
+        statusElement.textContent = "Thank you! Redirecting to GitHub to submit your feedback.";
+        statusElement.style.color = "#0078D7";
+        document.getElementById('feedback-form').reset();
+    });
+</script>
+
+<footer style="margin-top:30px; text-align:center;">
     <h3>Send Feedback</h3>
     <form id="feedback-form" style="max-width:400px; margin:auto; text-align:left; background:#f9f9f9; padding:20px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
         <label for="name">Your Name</label><br>
@@ -924,9 +931,11 @@
     </form>
 </footer>
 
+
 </body>
 
 </html>
+
 
 
 
