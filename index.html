@@ -876,24 +876,33 @@
         });
 
     </script>
+
+
     <footer style="margin-top:30px; text-align:center;">
-    <a href="https://github.com/GI-Lab-TIGS/Homepage/issues" target="_blank">
-      <button style="
-        background-color:#0078D7;
-        color:white;
-        border:none;
-        padding:10px 20px;
-        font-size:16px;
-        border-radius:8px;
-        cursor:pointer;">
-          Send Feedback
-      </button>
-    </a>
-  </footer>
+        <h3>Send Feedback</h3>
+        <form action="https://github.com/GI-Lab-TIGS/Homepage/issues" method="POST" target="_blank" style="max-width:400px; margin:auto; text-align:left; background:#f9f9f9; padding:20px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+            <label for="name">Your Name</label><br>
+            <input type="text" id="name" name="name" placeholder="John Doe" style="width:100%; padding:8px; margin:5px 0 15px; border-radius:5px; border:1px solid #ccc;"><br>
+
+            <label for="feedback">Feedback</label><br>
+            <textarea id="feedback" name="feedback" placeholder="Enter your feedback here..." rows="4" style="width:100%; padding:8px; margin:5px 0 15px; border-radius:5px; border:1px solid #ccc;"></textarea><br>
+            <button type="submit" style="
+                background-color:#0078D7;
+                color:white;
+                border:none;
+                padding:10px 20px;
+                font-size:16px;
+                border-radius:8px;
+                cursor:pointer;">
+                Submit Feedback
+            </button>
+        </form>
+    </footer>
 
 </body>
 
 </html>
+
 
 
 
