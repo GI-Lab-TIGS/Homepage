@@ -889,7 +889,7 @@
            const body = `${feedback}\n\nSubmitted by: ${name}`;
            const encodedTitle = encodeURIComponent(title);
            const encodedBody = encodeURIComponent(body);
-           const repoUrl = "https://github.com/GI-Lab-TIGS/Homepage/blob/main/.github/ISSUE_TEMPLATE/feedback.yml";
+           const repoUrl = "https://github.com/GI-Lab-TIGS/Homepage/issues/new?template=feedback.yml";
            const issueUrl = `${repoUrl}?title=${encodedTitle}&body=${encodedBody}`;
            window.open(issueUrl, '_blank');
            statusElement.textContent = "Thank you! Redirecting to GitHub to submit your feedback.";
@@ -927,6 +927,7 @@
 </body>
 
 </html>
+
 
 
 
