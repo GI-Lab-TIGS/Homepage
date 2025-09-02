@@ -688,6 +688,67 @@
         body.dark-mode .bibliography-content {
             border-top: 1px solid #233554;
         }
+        .feedback-section {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 40px;
+            background: #f4f8fc;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,123,255,0.08);
+        }
+        body.dark-mode .feedback-section {
+            background: #112240;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+        }
+        .feedback-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .feedback-form label {
+            font-weight: 600;
+            color: #2a3b4c;
+        }
+        body.dark-mode .feedback-form label {
+            color: #ccd6f6;
+        }
+        .feedback-form input,
+        .feedback-form textarea {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        body.dark-mode .feedback-form input,
+        body.dark-mode .feedback-form textarea {
+            background: #0a192f;
+            border-color: #233554;
+            color: #ccd6f6;
+        }
+        .feedback-form button {
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .feedback-form button:hover {
+            background: #0056b3;
+        }
+        body.dark-mode .feedback-form button {
+            background: #64ffda;
+            color: #0a192f;
+        }
+        body.dark-mode .feedback-form button:hover {
+            background: #52e6c3;
+        }
+        #form-status {
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
     </style>
 </head>
 <body>
@@ -781,6 +842,24 @@
                 </ol>
             </div>
         </details>
+         //Feedback section
+        <section class="feedback-section" id="feedback">
+         <h2 class="section-title">Feedback</h2>
+         <p class="section-subtitle">We’d love to hear your thoughts! Please share your feedback below.</p>
+         <form action="https://formspree.io/f/nmphenogen@gmail.com" method="POST" class="feedback-form">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required>
+
+          <label for="email">Email</label>
+          <input type="email" id="email" name="_replyto" placeholder="Your email" required>
+
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Your feedback..." required></textarea>
+
+          <button type="submit">Send Feedback</button>
+  </form>
+  <p id="form-status"></p>
+</section>
     </main>
 
     <script>
@@ -851,10 +930,34 @@
             populateBibliography();
             setupBibliographyFilter();
         });
+    
+        const form = document.querySelector(".feedback-form");
+        const status = document.getElementById("form-status");
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const data = new FormData(form);
+            try {
+                let res = await fetch(form.action, {
+                    method: form.method,
+                    body: data,
+                    headers: { Accept: "application/json" }
+                });
+                if (res.ok) {
+                    status.textContent = "Thank you! Your feedback has been sent.";
+                    form.reset();
+                } else {
+                    status.textContent = "Oops! Something went wrong. Please try again.";
+                }
+            } catch (err) {
+                status.textContent = "Network error. Please try again later.";
+            }
+        });
+
     </script>
 </body>
 
 </html>
+
 
 
 
