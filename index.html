@@ -579,15 +579,65 @@
             background: #52e6c3;
         }
 
-        /* Feedback form styling */
+        /* Feedback section styling */
+        .feedback-section {
+            max-width: 1300px;
+            margin: 0 auto 80px;
+            padding: 0 60px;
+        }
+
+        details.feedback-section {
+            margin-bottom: 80px;
+        }
+
+        details.feedback-section summary {
+            font-size: 2.5em;
+            color: #2a3b4c;
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            padding: 10px 0;
+        }
+
+        body.dark-mode details.feedback-section summary {
+            color: #ccd6f6;
+        }
+
+        details.feedback-section summary::after {
+            content: ' ▼';
+            transition: transform 0.3s ease;
+        }
+
+        details.feedback-section[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        details.feedback-section[open] summary {
+            margin-bottom: 20px;
+        }
+
+        .feedback-content {
+            padding: 20px 0;
+            border-top: 1px solid #e6effa;
+        }
+
+        body.dark-mode .feedback-content {
+            border-top: 1px solid #233554;
+        }
+
         .feedback-form {
             max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
+            margin: 0 auto;
+            padding: 30px;
             background: #ffffff;
             border: 1px solid #e6effa;
-            border-radius: 8px;
+            border-radius: 16px;
             box-shadow: 0 4px 12px rgba(0, 102, 204, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
         body.dark-mode .feedback-form {
@@ -597,11 +647,10 @@
         }
 
         .feedback-form label {
-            display: block;
-            font-size: 1.05em;
+            font-size: 1.1em;
             color: #2a3b4c;
-            margin-bottom: 8px;
             font-weight: 500;
+            margin-bottom: 8px;
         }
 
         body.dark-mode .feedback-form label {
@@ -611,11 +660,11 @@
         .feedback-form input,
         .feedback-form textarea {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
+            padding: 12px 16px;
             border: 1px solid #e6effa;
             border-radius: 8px;
             font-size: 1em;
+            font-family: 'Inter', sans-serif;
             transition: border-color 0.3s, box-shadow 0.3s;
             background: #fff;
         }
@@ -642,10 +691,12 @@
 
         .feedback-form textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 120px;
+            max-height: 300px;
         }
 
         .feedback-form button {
+            align-self: flex-end;
             display: inline-flex;
             align-items: center;
             color: #ffffff;
@@ -653,7 +704,7 @@
             border: none;
             font-weight: 600;
             font-size: 1.05em;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 8px;
             cursor: pointer;
             transition: background 0.3s ease, transform 0.3s ease;
@@ -674,14 +725,48 @@
         }
 
         #form-status {
-            margin-top: 10px;
             font-size: 1em;
             color: #495057;
             text-align: center;
+            margin-top: 10px;
+            animation: fadeInUp 0.6s ease-out;
         }
 
         body.dark-mode #form-status {
             color: #a8b2d1;
+        }
+
+        /* Footer links */
+        .footer-links {
+            text-align: center;
+            margin: 40px auto;
+            font-size: 1em;
+            color: #6c757d;
+            max-width: 1300px;
+            padding: 0 60px;
+        }
+
+        body.dark-mode .footer-links {
+            color: #8892b0;
+        }
+
+        .footer-links a {
+            color: #007bff;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .footer-links a {
+            color: #64ffda;
+        }
+
+        .footer-links a:hover {
+            color: #0062cc;
+        }
+
+        body.dark-mode .footer-links a:hover {
+            color: #52e6c3;
         }
 
         /* Add subtle animations */
@@ -690,7 +775,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .tool-card, .about-content p, .objectives-list li, .bibliography-list li {
+        .tool-card, .about-content p, .objectives-list li, .bibliography-list li, .feedback-form {
             animation: fadeInUp 0.6s ease-out forwards;
             opacity: 0;
         }
@@ -699,6 +784,7 @@
         .tool-card:nth-child(2), .about-content p:nth-child(2), .objectives-list li:nth-child(2) { animation-delay: 0.4s; }
         .tool-card:nth-child(3), .about-content p:nth-child(3), .objectives-list li:nth-child(3) { animation-delay: 0.6s; }
         .tool-card:nth-child(4), .about-content p:nth-child(4), .objectives-list li:nth-child(4) { animation-delay: 0.8s; }
+        .feedback-form { animation-delay: 0.2s; }
 
         /* Skip link for accessibility */
         .skip-link {
@@ -732,7 +818,7 @@
                 flex-direction: column;
                 gap: 15px;
             }
-            .about-section, .objectives-section, .bibliography-section, .tools-section {
+            .about-section, .objectives-section, .bibliography-section, .tools-section, .feedback-section {
                 padding: 0 30px 80px;
             }
             .tool-grid {
@@ -746,7 +832,11 @@
                 margin-bottom: 20px;
             }
             .feedback-form {
-                padding: 15px;
+                padding: 20px;
+            }
+            .footer-links {
+                padding: 0 30px;
+                margin: 20px auto;
             }
         }
 
@@ -755,12 +845,12 @@
             scroll-behavior: smooth;
         }
 
-        /* Dropdown styling for bibliography */
-        details.bibliography-section {
+        /* Dropdown styling for bibliography and feedback */
+        details.bibliography-section, details.feedback-section {
             margin-bottom: 80px;
         }
 
-        details.bibliography-section summary {
+        details.bibliography-section summary, details.feedback-section summary {
             font-size: 2.5em;
             color: #2a3b4c;
             margin-bottom: 20px;
@@ -771,29 +861,29 @@
             padding: 10px 0;
         }
 
-        body.dark-mode details.bibliography-section summary {
+        body.dark-mode details.bibliography-section summary, body.dark-mode details.feedback-section summary {
             color: #ccd6f6;
         }
 
-        details.bibliography-section summary::after {
+        details.bibliography-section summary::after, details.feedback-section summary::after {
             content: ' ▼';
             transition: transform 0.3s ease;
         }
 
-        details.bibliography-section[open] summary::after {
+        details.bibliography-section[open] summary::after, details.feedback-section[open] summary::after {
             transform: rotate(180deg);
         }
 
-        details.bibliography-section[open] summary {
+        details.bibliography-section[open] summary, details.feedback-section[open] summary {
             margin-bottom: 20px;
         }
 
-        .bibliography-content {
+        .bibliography-content, .feedback-content {
             padding: 20px 0;
             border-top: 1px solid #e6effa;
         }
 
-        body.dark-mode .bibliography-content {
+        body.dark-mode .bibliography-content, body.dark-mode .feedback-content {
             border-top: 1px solid #233554;
         }
     </style>
@@ -888,21 +978,26 @@
                 </ol>
             </div>
         </details>
+
+        <details class="feedback-section" aria-labelledby="feedback-title">
+            <summary class="section-title" id="feedback-title">Send Feedback</summary>
+            <div class="feedback-content">
+                <form class="feedback-form" id="feedback-form" action="mailto:nmphenogen@gmail.com" method="POST" enctype="text/plain">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your name" required>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Your email" required>
+                    <label for="message">Feedback</label>
+                    <textarea id="message" name="message" placeholder="Your feedback" required></textarea>
+                    <button type="submit">Submit Feedback</button>
+                </form>
+                <p id="form-status"></p>
+            </div>
+        </details>
     </main>
 
-    <footer style="margin-top:30px; text-align:center;">
-        <h2 class="section-title">Send Feedback</h2>
-        <form class="feedback-form" id="feedback-form" action="mailto:nmphenogen@gmail.com" method="POST" enctype="text/plain">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Your name" required>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Your email" required>
-            <label for="message">Feedback</label>
-            <textarea id="message" name="message" placeholder="Your feedback" required></textarea>
-            <button type="submit">Submit Feedback</button>
-        </form>
-        <p id="form-status"></p>
-        <p style="margin-top:20px;">
+    <footer class="footer-links">
+        <p>
             <a href="https://github.com/GI-Lab-TIGS" target="_blank">GitHub Repository</a> | 
             Contact: <a href="mailto:gayatri.iyer@tigs.res.in">gayatri.iyer@tigs.res.in</a>
         </p>
