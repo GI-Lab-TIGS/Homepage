@@ -243,6 +243,40 @@
             color: #64ffda;
         }
 
+        .publication-section {
+            margin-bottom: 50px;
+            padding: 20px;
+            background: rgba(0, 123, 255, 0.05);
+            border-radius: 12px;
+            border-left: 4px solid #007bff;
+        }
+
+        body.dark-mode .publication-section {
+            background: rgba(100, 255, 218, 0.05);
+            border-left-color: #64ffda;
+        }
+
+        .publication-section h3 {
+            font-size: 1.4em;
+            color: #007bff;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        body.dark-mode .publication-section h3 {
+            color: #64ffda;
+        }
+
+        .publication-section p {
+            font-size: 1.1em;
+            color: #495057;
+            margin-bottom: 15px;
+        }
+
+        body.dark-mode .publication-section p {
+            color: #a8b2d1;
+        }
+
         .about-section, .objectives-section, .bibliography-section {
             max-width: 1300px;
             margin: 0 auto 80px;
@@ -838,6 +872,9 @@
                 padding: 0 30px;
                 margin: 20px auto;
             }
+            .publication-section {
+                padding: 15px;
+            }
         }
 
         /* Smooth scrolling */
@@ -910,6 +947,11 @@
             <span class="feature">Specialized Tools</span>
             <span class="feature">Clinical Grade Analysis</span>
             <span class="feature">Research</span>
+        </div>
+        <div class="publication-section">
+            <h3>Latest Publication</h3>
+            <p>Congratulations! Our article on NMphenogen has been published in <em>Frontiers in Neuroscience</em>.</p>
+            <a href="https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2025.1696899/full" target="_blank" class="access-link">Read the Full Article</a>
         </div>
         <section class="objectives-section" aria-labelledby="objectives-title">
             <h2 class="section-title" id="objectives-title">Objectives of NMPhenogen Database</h2>
